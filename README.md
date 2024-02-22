@@ -6,12 +6,18 @@ This is a project to use process-based and thread-based parallelism.
 * Parallelize a CPU-bound task with Process or Pool objects
 * Parallelize an I/O-bound task in a Pool with threads using the (oddly named) dummy module
 * Share pickled work via a Queue
-* Share state between parallelized workers, including bytes, primitive datatypes, dictionaries, and lists
+* Share state between parallelized workers, including bytes, primitive data types, dictionaries, and lists
+
+## Lessons
+1. Joblib is useful when function output can be cached in disk or can share Numpy data between process
+
+## Improvement
+1. Figure out how to use decorator with multiprocessing
+2. Figure out how to generalize multiprocessing pool.map to use for different functions.
 
 ### Built With
 
 * High Performance Python
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
