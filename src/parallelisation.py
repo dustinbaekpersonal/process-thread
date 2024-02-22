@@ -7,7 +7,8 @@ from joblib import Parallel, delayed
 from typing import Callable, Optional
 from multiprocessing import Pool
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('asdfasdf')
+logger.setLevel(logging.INFO)
 
 
 #TODO: decorator gives error during multiprocessing
