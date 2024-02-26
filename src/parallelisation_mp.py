@@ -7,9 +7,7 @@ from joblib import Parallel, delayed
 from typing import Callable, Optional
 from multiprocessing import Pool
 
-logger = logging.getLogger('asdfasdf')
-logger.setLevel(logging.INFO)
-
+logging.basicConfig(level = logging.INFO)
 
 #TODO: decorator gives error during multiprocessing
 def timer(func):
@@ -18,7 +16,7 @@ def timer(func):
         func(*args, **kwargs)
         end = time.time()
         duration = round(end - start,6)
-        logger.info(f"Time taken: {duration}")
+        logging.info(f"Time taken: {duration}")
         return duration
     return wrapper
 
@@ -34,7 +32,7 @@ def estimate_nbr_points_in_quarter_circle(nbr_estimates: int) -> int:
     Returns:
         int: number of attempts that land inside unit circle
     """
-    logger.info(f"Executing estimate_nbr_points_in_quarter_circle " +
+    logging.info(f"Executing estimate_nbr_points_in_quarter_circle " +
                    f"with {nbr_estimates} on pid {os.getpid()}")
     start = time.time()
     nbr_trials_in_quarter_unit_circle = 0
@@ -46,7 +44,7 @@ def estimate_nbr_points_in_quarter_circle(nbr_estimates: int) -> int:
         nbr_trials_in_quarter_unit_circle += is_in_unit_circle
     end = time.time()
     duration = round(end - start,4)
-    logger.info(f"Time taken: {duration}")
+    logging.info(f"Time taken: {duration}")
     return nbr_trials_in_quarter_unit_circle
 
 
@@ -58,7 +56,7 @@ def estimate_nbr_points_multiprocessing(func: Callable, nbr_samples_in_total: in
     pool = Pool(processes=num_cores)
     
     nbr_samples_per_worker = nbr_samples_in_total / num_cores
-    logger.info(f"Making {nbr_samples_per_worker} samples per {num_cores} worker")
+    logging.info(f"Making {nbr_samples_per_worker} samples per {num_cores} worker")
 
     #list of number of samples per process
     nbr_trials_per_process = [nbr_samples_per_worker] * num_cores
@@ -66,14 +64,14 @@ def estimate_nbr_points_multiprocessing(func: Callable, nbr_samples_in_total: in
     # returns a list of results
     nbr_in_quarter_unit_circles = pool.map(func,
                                         nbr_trials_per_process)
-    logger.info(nbr_in_quarter_unit_circles)
+    logging.info(nbr_in_quarter_unit_circles)
     pi_estimate = sum(nbr_in_quarter_unit_circles) * 4 / float(nbr_samples_in_total)
     
     # end = time.time()
     # duration = round(end-start, 4)
     # logger.info(f"Time taken using multiprocessing: {duration}")
     
-    logger.info(pi_estimate)
+    logging.info(pi_estimate)
 
 
 #TODO: change trials object
@@ -98,10 +96,8 @@ def not_embarrassingly_parallel(num: int):
 
 
 if __name__ == "__main__":
-    # nbr_samples_in_total = 1e8
-    # estimate_nbr_points_in_quarter_circle(nbr_samples_in_total)
-    # estimate_nbr_points_multiprocessing(estimate_nbr_points_in_quarter_circle, nbr_samples_in_total, 10)
+    nbr_samples_in_total = 1e8
+    estimate_nbr_points_in_quarter_circle(nbr_samples_in_total)
+    estimate_nbr_points_multiprocessing(estimate_nbr_points_in_quarter_circle, nbr_samples_in_total, 10)
     
     # output = multiprocessor(not_embarrassingly_parallel, 100)
-    # logger.info(output)
-    logger.info('asdf')
