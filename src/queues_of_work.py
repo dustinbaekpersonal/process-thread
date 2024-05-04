@@ -106,3 +106,8 @@ if __name__ == "__main__":
     """There is quite an overhead to using a Queue, due to the pickling and synchronization. 
     As you can see in Figure 9-14, using a Queue-less single-process solution is significantly faster than using two or more processes. 
     The reason in this case is because our workload is very light—the communication cost dominates the overall time for this task"""
+    
+    """Consider using a task graph for resilience. 
+    Data science tasks requiring long-running queues are frequently served well by specifying pipelines of work in acyclic graphs. 
+    Two strong libraries are Airflow and Luigi. 
+    These are very frequently used in industrial settings and enable arbitrary task chaining, online monitoring, and flexible scaling."""
